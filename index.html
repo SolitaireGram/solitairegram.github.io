@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Politique de confidentialité — Solitaire Gram</title>
+<meta name="description" content="Politique de confidentialité de Solitaire Gram, jeu mobile édité par Nitek.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --sand: #efe5d2;
+    --sand-deep: #e4d6bb;
+    --card: #fbf7ee;
+    --ink: #2a231c;
+    --ink-soft: #5a4f42;
+    --felt: #3f6e5b;
+    --felt-deep: #2c4d40;
+    --ochre: #c9862f;
+    --plum: #7a3b4a;
+    --rule: rgba(42,35,28,0.12);
+    --radius: 14px;
+    --maxw: 1180px;
+  }
+
+  *{ box-sizing: border-box; }
+
+  html{ scroll-behavior: smooth; }
+
+  body{
+    margin:0;
+    background: var(--sand);
+    color: var(--ink);
+    font-family: "Work Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+    line-height: 1.65;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ---------- background texture ---------- */
+  body::before{
+    content:"";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background-color: var(--sand);
+    background-image:
+      linear-gradient(135deg, transparent 46%, var(--sand-deep) 46%, var(--sand-deep) 48%, transparent 48%),
+      linear-gradient(45deg, transparent 46%, var(--sand-deep) 46%, var(--sand-deep) 48%, transparent 48%);
+    background-size: 34px 34px;
+    opacity: 0.35;
+  }
+
+  a{ color: var(--felt-deep); }
+  a:hover{ color: var(--ochre); }
+
+  h1,h2,h3{
+    font-family: "Fraunces", Georgia, serif;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.15;
+    margin: 0;
+  }
+
+  .eyebrow{
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--felt-deep);
+  }
+
+  /* ---------- skip link / a11y ---------- */
+  .skip-link{
+    position:absolute; left:-999px; top:auto;
+    background: var(--ink); color: var(--card);
+    padding: 10px 16px; border-radius: 8px; z-index: 999;
+  }
+  .skip-link:focus{ left: 16px; top: 16px; }
+
+  :focus-visible{
+    outline: 3px solid var(--ochre);
+    outline-offset: 3px;
+  }
+
+  /* ---------- header ---------- */
+  header.hero{
+    padding: 76px 24px 56px;
+    text-align: center;
+    position: relative;
+    animation: fadeUp 0.7s ease both;
+  }
+
+  .card-mark{
+    width: 76px;
+    height: auto;
+    margin: 0 auto 22px;
+    display:block;
+  }
+
+  header.hero h1{
+    font-size: clamp(2rem, 5vw, 3.1rem);
+    max-width: 16ch;
+    margin: 0 auto;
+  }
+
+  header.hero .subtitle{
+    margin-top: 14px;
+    color: var(--ink-soft);
+    font-size: 1.05rem;
+  }
+
+  .meta-row{
+    display:flex;
+    gap: 10px;
+    justify-content:center;
+    flex-wrap: wrap;
+    margin-top: 26px;
+  }
+
+  .pill{
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+    background: var(--card);
+    border: 1px solid var(--rule);
+    color: var(--ink-soft);
+    padding: 7px 14px;
+    border-radius: 999px;
+  }
+
+  /* ---------- layout ---------- */
+  .wrap{
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 0 24px 100px;
+    display: grid;
+    grid-template-columns: 250px minmax(0,1fr);
+    gap: 56px;
+    align-items: start;
+  }
+
+  /* ---------- TOC (desktop) ---------- */
+  nav.toc{
+    position: sticky;
+    top: 28px;
+    background: var(--card);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    padding: 22px 20px;
+  }
+
+  nav.toc ol{
+    list-style: none;
+    margin: 14px 0 0;
+    padding: 0;
+    counter-reset: toc;
+  }
+
+  nav.toc li{ counter-increment: toc; margin-bottom: 4px; }
+
+  nav.toc a{
+    display: flex;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--ink-soft);
+    font-size: 0.88rem;
+    padding: 7px 8px;
+    border-radius: 8px;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+
+  nav.toc a::before{
+    content: counter(toc, decimal-leading-zero);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.72rem;
+    color: var(--ochre);
+    flex-shrink: 0;
+  }
+
+  nav.toc a:hover, nav.toc a:focus-visible{
+    background: var(--sand-deep);
+    color: var(--ink);
+  }
+
+  /* mobile TOC */
+  details.toc-mobile{
+    display:none;
+    background: var(--card);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    padding: 14px 18px;
+    margin: 0 24px 32px;
+  }
+  details.toc-mobile summary{
+    font-family:"IBM Plex Mono", monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    color: var(--felt-deep);
+  }
+  details.toc-mobile ol{ margin: 12px 0 0; padding-left: 20px; }
+  details.toc-mobile a{ color: var(--ink-soft); text-decoration:none; font-size: 0.92rem; }
+  details.toc-mobile li{ margin-bottom: 8px; }
+
+  /* ---------- main content ---------- */
+  main{ min-width: 0; }
+
+  section.policy-section{
+    background: var(--card);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    padding: 34px clamp(20px, 4vw, 44px);
+    margin-bottom: 22px;
+    scroll-margin-top: 24px;
+  }
+
+  section.policy-section .num{
+    font-family:"IBM Plex Mono", monospace;
+    color: var(--ochre);
+    font-size: 0.82rem;
+    display:block;
+    margin-bottom: 8px;
+  }
+
+  section.policy-section h2{
+    font-size: 1.5rem;
+    margin-bottom: 16px;
+  }
+
+  section.policy-section p{ margin: 0 0 14px; color: var(--ink); }
+  section.policy-section p:last-child{ margin-bottom: 0; }
+
+  section.policy-section ul{
+    margin: 0 0 14px;
+    padding-left: 22px;
+  }
+  section.policy-section li{ margin-bottom: 8px; }
+  section.policy-section ul:last-child{ margin-bottom: 0; }
+
+  section.policy-section strong{ color: var(--felt-deep); }
+
+  .data-table{
+    width:100%;
+    border-collapse: collapse;
+    margin: 6px 0 18px;
+    font-size: 0.94rem;
+  }
+  .data-table th, .data-table td{
+    text-align:left;
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+  }
+  .data-table th{
+    font-family:"IBM Plex Mono", monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--felt-deep);
+  }
+
+  .callout{
+    background: var(--sand-deep);
+    border-left: 3px solid var(--ochre);
+    border-radius: 0 10px 10px 0;
+    padding: 14px 18px;
+    font-size: 0.92rem;
+    color: var(--ink-soft);
+    margin-top: 4px;
+  }
+
+  .callout.plum{ border-left-color: var(--plum); }
+
+  code{
+    font-family: "IBM Plex Mono", monospace;
+    background: var(--sand-deep);
+    padding: 2px 6px;
+    border-radius: 5px;
+    font-size: 0.88em;
+  }
+
+  .contact-box{
+    display:flex;
+    flex-wrap: wrap;
+    gap: 18px 34px;
+    align-items:center;
+    justify-content: space-between;
+  }
+  .contact-box .btn{
+    display:inline-block;
+    background: var(--felt);
+    color: var(--card);
+    text-decoration:none;
+    font-family:"IBM Plex Mono", monospace;
+    font-size: 0.82rem;
+    letter-spacing: 0.03em;
+    padding: 12px 22px;
+    border-radius: 999px;
+    transition: background 0.15s ease;
+  }
+  .contact-box .btn:hover{ background: var(--felt-deep); color: var(--card); }
+
+  footer{
+    text-align:center;
+    padding: 40px 24px 60px;
+    color: var(--ink-soft);
+    font-size: 0.85rem;
+  }
+
+  footer .card-mark{ width: 34px; opacity: 0.6; margin-bottom: 14px; }
+
+  @keyframes fadeUp{
+    from{ opacity:0; transform: translateY(14px); }
+    to{ opacity:1; transform: translateY(0); }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    header.hero{ animation:none; }
+  }
+
+  @media (max-width: 880px){
+    .wrap{ grid-template-columns: 1fr; gap: 0; padding: 0 0 80px; }
+    nav.toc{ display:none; }
+    details.toc-mobile{ display:block; }
+    section.policy-section{ border-radius: 0; border-left:none; border-right:none; margin: 0; border-top:none; }
+    section.policy-section + section.policy-section{ border-top: 1px solid var(--rule); }
+    main{ padding: 0 0; }
+  }
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#main-content">Aller au contenu</a>
+
+<header class="hero">
+  <img src="logo.png" alt="Logo" style="width: 10%; height: 10%;">
+  <p class="eyebrow">Solitaire Gram</p>
+  <h1>Politique de confidentialité</h1>
+  <p class="subtitle">Ce que Solitaire Gram sait de toi, ce qu'il en fait, et comment le contrôler.</p>
+  <div class="meta-row">
+    <span class="pill">Dernière mise à jour : 17 juillet 2026</span>
+    <span class="pill">Éditeur : Nitek</span>
+    <span class="pill">Version 1.0</span>
+  </div>
+</header>
+
+<details class="toc-mobile">
+  <summary>Sommaire</summary>
+  <ol>
+    <li><a href="#qui-sommes-nous">Qui sommes-nous</a></li>
+    <li><a href="#donnees-collectees">Données collectées</a></li>
+    <li><a href="#utilisation">Comment nous les utilisons</a></li>
+    <li><a href="#services-tiers">Services tiers</a></li>
+    <li><a href="#publicite">Publicité</a></li>
+    <li><a href="#achats">Achats intégrés</a></li>
+    <li><a href="#conservation">Conservation des données</a></li>
+    <li><a href="#droits">Tes droits</a></li>
+    <li><a href="#enfants">Confidentialité des enfants</a></li>
+    <li><a href="#securite">Sécurité</a></li>
+    <li><a href="#modifications">Modifications</a></li>
+    <li><a href="#contact">Nous contacter</a></li>
+  </ol>
+</details>
+
+<div class="wrap">
+  <nav class="toc" aria-label="Sommaire">
+    <p class="eyebrow">Sommaire</p>
+    <ol>
+      <li><a href="#qui-sommes-nous">Qui sommes-nous</a></li>
+      <li><a href="#donnees-collectees">Données collectées</a></li>
+      <li><a href="#utilisation">Comment nous les utilisons</a></li>
+      <li><a href="#services-tiers">Services tiers</a></li>
+      <li><a href="#publicite">Publicité</a></li>
+      <li><a href="#achats">Achats intégrés</a></li>
+      <li><a href="#conservation">Conservation des données</a></li>
+      <li><a href="#droits">Tes droits</a></li>
+      <li><a href="#enfants">Confidentialité des enfants</a></li>
+      <li><a href="#securite">Sécurité</a></li>
+      <li><a href="#modifications">Modifications</a></li>
+      <li><a href="#contact">Nous contacter</a></li>
+    </ol>
+  </nav>
+
+  <main id="main-content">
+
+    <section class="policy-section" id="qui-sommes-nous">
+      <span class="num">01</span>
+      <h2>Qui sommes-nous</h2>
+      <p><strong>Solitaire Gram</strong> est un jeu mobile édité par <strong>Nitek</strong>, disponible sur Android (et bientôt iOS), qui associe tri de cartes façon solitaire et association de mots par catégorie, avec un contenu culturel dédié à l'Afrique francophone et à sa diaspora.</p>
+      <p>Cette politique explique quelles informations Solitaire Gram collecte lorsque tu joues, pourquoi, et quels contrôles tu as dessus. Elle s'applique à l'application mobile et à toute page web associée.</p>
+    </section>
+
+    <section class="policy-section" id="donnees-collectees">
+      <span class="num">02</span>
+      <h2>Données collectées</h2>
+      <p>Solitaire Gram ne te demande ni nom, ni email, ni numéro de téléphone pour jouer. Ton compte est créé automatiquement et anonymement dès le premier lancement.</p>
+      <table class="data-table">
+        <thead>
+          <tr><th>Donnée</th><th>Ce que c'est</th><th>Pourquoi</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Identifiant anonyme</td>
+            <td>Un identifiant technique généré par Firebase Authentication, propre à ton installation du jeu</td>
+            <td>Relier ta progression à ton appareil, sans savoir qui tu es</td>
+          </tr>
+          <tr>
+            <td>Progression de jeu</td>
+            <td>Niveau atteint, monnaie virtuelle, indices/gadgets disponibles, packs débloqués, pseudo par défaut ("Joueur")</td>
+            <td>Sauvegarder ta partie et la restaurer si tu changes d'appareil</td>
+          </tr>
+          <tr>
+            <td>Données techniques</td>
+            <td>Plateforme (Android/iOS/éditeur), statistiques d'usage agrégées (Firebase Analytics)</td>
+            <td>Comprendre comment le jeu est utilisé, corriger des bugs, l'améliorer</td>
+          </tr>
+          <tr>
+            <td>Identifiant publicitaire</td>
+            <td>Fourni par ton appareil et transmis à Google AdMob lorsque tu regardes une publicité récompensée</td>
+            <td>Afficher et rémunérer les publicités que tu choisis de regarder</td>
+          </tr>
+          <tr>
+            <td>Jeton de notification</td>
+            <td>Jeton technique Firebase Cloud Messaging, si tu actives les notifications</td>
+            <td>T'envoyer une notification (jamais lié à ton identité ni conservé pour du ciblage individuel)</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="callout">Nous ne collectons jamais tes contacts, ta localisation précise, tes photos ou tes messages. Solitaire Gram n'a pas besoin de ces informations pour fonctionner.</p>
+    </section>
+
+    <section class="policy-section" id="utilisation">
+      <span class="num">03</span>
+      <h2>Comment nous utilisons ces données</h2>
+      <ul>
+        <li>Sauvegarder et restaurer ta progression, même après une réinstallation, tant que l'identifiant anonyme de ton appareil est reconnu</li>
+        <li>Faire fonctionner les achats intégrés et les publicités récompensées que tu choisis d'activer</li>
+        <li>Mesurer l'usage global du jeu de façon agrégée, pour prioriser les corrections et améliorations</li>
+        <li>T'envoyer, ponctuellement, une notification générale si tu as activé cette option dans les réglages</li>
+      </ul>
+      <p>Nous ne vendons aucune donnée. Nous ne construisons pas de profil publicitaire détaillé de toi en dehors de ce que gèrent directement Google AdMob et Google Play, décrits ci-dessous.</p>
+    </section>
+
+    <section class="policy-section" id="services-tiers">
+      <span class="num">04</span>
+      <h2>Services tiers</h2>
+      <p>Solitaire Gram s'appuie sur des services fournis par Google pour fonctionner. Chacun traite une partie limitée de tes données, dans le cadre de sa propre politique de confidentialité :</p>
+      <ul>
+        <li><strong>Firebase</strong> (Authentication, Firestore, Analytics, Cloud Messaging) — sauvegarde de progression, statistiques, notifications. <a href="https://firebase.google.com/support/privacy" target="_blank" rel="noopener">Politique de confidentialité Firebase</a></li>
+        <li><strong>Google AdMob</strong> — affichage des publicités récompensées. <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener">Politique publicitaire de Google</a></li>
+        <li><strong>Google Play Billing</strong> — traitement des achats intégrés. <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Politique de confidentialité de Google</a></li>
+      </ul>
+      <p>Nous ne partageons pas tes données avec d'autres tiers en dehors de ces prestataires techniques nécessaires au fonctionnement du jeu.</p>
+    </section>
+
+    <section class="policy-section" id="publicite">
+      <span class="num">05</span>
+      <h2>Publicité</h2>
+      <p>Solitaire Gram propose des publicités vidéo récompensées, toujours <strong>à ton initiative</strong> : le jeu ne t'impose jamais de pub sans que tu aies cliqué sur un bouton pour l'activer (par exemple pour gagner des pièces supplémentaires).</p>
+      <p>Si tu es dans l'Union européenne, un écran de consentement te permet de choisir entre publicités personnalisées ou non avant tout affichage. Tu peux aussi retirer ton consentement ou supprimer définitivement les publicités du jeu via un achat intégré dédié.</p>
+    </section>
+
+    <section class="policy-section" id="achats">
+      <span class="num">06</span>
+      <h2>Achats intégrés</h2>
+      <p>Les achats (packs de pièces, suppression de publicité, contenus culturels premium) sont entièrement traités par <strong>Google Play</strong>. Solitaire Gram ne voit ni ne stocke jamais tes informations de paiement (numéro de carte, etc.) — seul le résultat de l'achat (quel produit, débloqué ou non) nous est transmis.</p>
+    </section>
+
+    <section class="policy-section" id="conservation">
+      <span class="num">07</span>
+      <h2>Conservation des données</h2>
+      <p>Tes données de progression sont conservées tant que ton identifiant anonyme existe, c'est-à-dire tant que tu n'as pas désinstallé le jeu sans restaurer de sauvegarde ailleurs, ou tant que tu ne demandes pas leur suppression.</p>
+      <p class="callout plum">Ton compte étant anonyme, nous n'avons aucun moyen de te reconnaître autrement que par cet identifiant technique. Si tu souhaites la suppression de tes données, contacte-nous (section 12) en précisant autant de détails que possible sur ton appareil et la date approximative de ta dernière partie, pour nous aider à retrouver ton profil.</p>
+    </section>
+
+    <section class="policy-section" id="droits">
+      <span class="num">08</span>
+      <h2>Tes droits</h2>
+      <p>Selon ta localisation, tu peux disposer d'un droit d'accès, de rectification, de suppression ou d'opposition au traitement de tes données. Pour exercer l'un de ces droits, écris-nous à l'adresse indiquée en section 12 : nous répondrons dans un délai raisonnable.</p>
+    </section>
+
+    <section class="policy-section" id="enfants">
+      <span class="num">09</span>
+      <h2>Confidentialité des enfants</h2>
+      <p>Solitaire Gram s'adresse à un public général et n'est pas spécifiquement conçu pour les enfants de moins de 13 ans. Nous ne collectons pas sciemment de données personnelles identifiables auprès d'enfants. Si tu es parent ou tuteur et penses que ton enfant nous a transmis des données, contacte-nous pour que nous les supprimions.</p>
+    </section>
+
+    <section class="policy-section" id="securite">
+      <span class="num">10</span>
+      <h2>Sécurité</h2>
+      <p>Tes données de progression sont stockées sur Firebase Firestore avec des règles d'accès strictes : seul l'appareil authentifié propriétaire d'un profil peut lire ou modifier ses propres données. Aucun accès public n'est autorisé.</p>
+    </section>
+
+    <section class="policy-section" id="modifications">
+      <span class="num">11</span>
+      <h2>Modifications de cette politique</h2>
+      <p>Nous pouvons mettre à jour cette politique pour refléter l'évolution du jeu ou de la réglementation. La date de dernière mise à jour est indiquée en haut de cette page. En cas de changement important, nous t'en informerons via une notification dans le jeu si possible.</p>
+    </section>
+
+    <section class="policy-section" id="contact">
+      <span class="num">12</span>
+      <h2>Nous contacter</h2>
+      <div class="contact-box">
+        <p style="margin:0; max-width:46ch;">Une question sur cette politique, ou une demande liée à tes données ? Écris-nous directement.</p>
+        <a class="btn" href="mailto:contact.solitairegram@gmail.com">contact.solitairegram@gmail.com</a>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<footer>
+  <svg class="card-mark" viewBox="0 0 100 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <rect x="22" y="6" width="46" height="62" rx="7" transform="rotate(-8 22 6)" fill="#e4d6bb" stroke="#2a231c" stroke-width="2"/>
+    <rect x="30" y="12" width="46" height="62" rx="7" fill="#fbf7ee" stroke="#2a231c" stroke-width="2"/>
+  </svg>
+  <p>Solitaire Gram — édité par Nitek. Cette page ne constitue pas un avis juridique.</p>
+</footer>
+
+</body>
+</html>
