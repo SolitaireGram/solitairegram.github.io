@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SolitaireGram - Telechargement</title>
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background: #101010;
+    color: #f5f5f5;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  }
+
+  .wrap {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 24px;
+    box-sizing: border-box;
+  }
+
+  .logo {
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    margin-bottom: 24px;
+  }
+  .logo span { color: #148dff; }
+
+  .spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #2a2a2a;
+    border-top-color: #f52a1c;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin-bottom: 20px;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  p {
+    margin: 4px 0;
+    font-size: 15px;
+    color: #cfcfcf;
+  }
+
+  .manual-links {
+    margin-top: 28px;
+    display: none;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .manual-links.visible {
+    display: flex;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 12px 24px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 15px;
+  }
+
+  .btn-android {
+    background: #148dff;
+    color: #ffffff;
+  }
+
+  .btn-ios {
+    background: #f52a1c;
+    color: #ffffff;
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="logo">Solitaire<span>Gram</span></div>
+  <div class="spinner"></div>
+  <p>Redirection en cours...</p>
+  <p id="status"></p>
+
+  <div class="manual-links" id="manualLinks">
+    <a class="btn btn-android" id="androidLink" href="https://play.google.com/store/apps/details?id=com.nikdjenh.solitairegram">Télécharger sur Google Play Store</a>
+    <a class="btn btn-ios" id="iosLink" href="https://apps.apple.com/app/solitaire-gram/id6792327375 ">Télécharger sur l'App Store</a>
+  </div>
+</div>
+
+<script>
+  // === Liens des stores ===
+  // PLACEHOLDER : remplacer par le vrai package name Android une fois confirmé
+  var ANDROID_URL = "https://play.google.com/store/apps/details?id=com.nikdjenh.solitairegram";
+
+  // PLACEHOLDER : remplacer par le vrai ID App Store une fois l'app publiée sur iOS
+  var IOS_URL = "https://apps.apple.com/app/solitaire-gram/id6792327375 ";
+
+  // Lien de secours si l'OS n'est ni Android ni iOS (desktop, etc.)
+  var FALLBACK_URL = ANDROID_URL;
+
+  function detectOS() {
+    var ua = navigator.userAgent || navigator.vendor || window.opera || "";
+
+    if (/android/i.test(ua)) {
+      return "android";
+    }
+
+    // Détection iOS classique + iPadOS 13+ qui se déclare comme "Mac" avec support tactile
+    if (/iPad|iPhone|iPod/.test(ua) && !window.MSStream) {
+      return "ios";
+    }
+    if (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1) {
+      return "ios";
+    }
+
+    return "android";
+  }
+
+  function redirect() {
+    var os = detectOS();
+    var statusEl = document.getElementById("status");
+    var manualLinks = document.getElementById("manualLinks");
+
+    document.getElementById("androidLink").href = ANDROID_URL;
+    document.getElementById("iosLink").href = IOS_URL;
+
+    var targetUrl;
+
+    if (os === "android") {
+      statusEl.textContent = "Ouverture du Google Play Store...";
+      targetUrl = ANDROID_URL;
+    } else if (os === "ios") {
+      statusEl.textContent = "Ouverture de l'App Store...";
+      targetUrl = IOS_URL;
+    } else {
+      statusEl.textContent = "Choisissez votre plateforme :";
+      manualLinks.classList.add("visible");
+      return;
+    }
+
+    window.location.href = targetUrl;
+
+    // Si la redirection automatique échoue (bloqueur, navigateur in-app, etc.),
+    // on affiche les liens manuels après un court délai
+    setTimeout(function () {
+      manualLinks.classList.add("visible");
+    }, 2500);
+  }
+
+  redirect();
+</script>
+
+</body>
+</html>
